@@ -4,7 +4,7 @@ const CheckCircle = () => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
+      className="w-6 h-6 md:w-8 md:h-8"
     >
       <path
         d="M8.5 12.5L10.5 14.5L15.5 9.5"

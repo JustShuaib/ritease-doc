@@ -3,6 +3,7 @@ import AlertCircle from "@/icons/alertCircle";
 import CheckCircle from "@/icons/checkCircle";
 import Close from "@/icons/close";
 import File from "@/icons/file";
+import truncateName from "@/utils/truncate";
 
 interface FileUploadState {
   file: File | null;
@@ -13,12 +14,13 @@ interface FileUploadState {
 interface FileUploadProps {
   fileState: FileUploadState;
   setFileState: (newState: FileUploadState) => void;
+  setIsAnnotating: (state: boolean) => void;
 }
 const FileUpload = ({
   fileState: {file, error, success},
   setFileState,
+  setIsAnnotating,
 }: FileUploadProps) => {
-
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -92,6 +94,7 @@ const FileUpload = ({
       success: false,
     });
   }, [setFileState]);
+  const processFile = () => setIsAnnotating(true);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:p-6 md:p-8">
@@ -147,10 +150,10 @@ const FileUpload = ({
             {file && (
               <div className="bg-white rounded-lg p-4 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2 md:space-x-3">
                     <CheckCircle />
                     <span className="text-gray-900 font-medium">
-                      {file.name}
+                      {truncateName(file.name)}
                     </span>
                   </div>
                   <button
@@ -175,7 +178,11 @@ const FileUpload = ({
 
         {file && (
           <div className="mt-6 flex justify-center">
-            <button className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+            <button
+              type="button"
+              onClick={processFile}
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+            >
               Process PDF
             </button>
           </div>
